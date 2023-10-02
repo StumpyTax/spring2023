@@ -8,7 +8,7 @@ group = 'com.spring2023'
 version = '0.0.1-SNAPSHOT'
 
 java {
-    sourceCompatibility = '17'
+    sourceCompatibility = '20'
 }
 
 configurations {
@@ -27,12 +27,22 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
+    implementation 'org.junit.jupiter:junit-jupiter:5.8.1'
+    implementation 'org.junit.jupiter:junit-jupiter:5.8.1'
+    implementation 'junit:junit:4.13.1'
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     runtimeOnly 'org.postgresql:postgresql'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
+/*
+    implementation 'com.tngtech.archunit:archunit:1.0.0'
+*/
+    implementation 'com.tngtech.archunit:archunit-junit5:1.0.1'
+    implementation 'com.tngtech.archunit:archunit-junit5-api:1.0.0'
+    implementation 'com.tngtech.archunit:archunit-junit5-engine:1.0.0'
+    implementation 'com.tngtech.archunit:archunit-junit5-engine-api:1.0.0'
 }
 
 tasks.named('test') {
