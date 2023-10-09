@@ -36,13 +36,9 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
-/*
-    implementation 'com.tngtech.archunit:archunit:1.0.0'
-*/
+
     implementation 'com.tngtech.archunit:archunit-junit5:1.0.1'
-    implementation 'com.tngtech.archunit:archunit-junit5-api:1.0.0'
-    implementation 'com.tngtech.archunit:archunit-junit5-engine:1.0.0'
-    implementation 'com.tngtech.archunit:archunit-junit5-engine-api:1.0.0'
+
 }
 
 tasks.named('test') {

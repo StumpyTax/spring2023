@@ -1,0 +1,9 @@
+server:
+  port: ${PORT}
+---
+spring:
+  profiles: test
+
+---
+spring:
+  profiles: dev
