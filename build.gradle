@@ -8,7 +8,7 @@ group = 'com.spring2023'
 version = '0.0.1-SNAPSHOT'
 
 java {
-    sourceCompatibility = '20'
+    sourceCompatibility = '17'
 }
 
 configurations {
@@ -37,7 +37,14 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
 
+/*
+    compile group: 'org.springframework.amqp', name: 'spring-rabbit', version: '3.0.6'
+*/
+/*
+    implementation 'org.springframework.amqp:spring-rabbit'
+*/
     implementation 'com.tngtech.archunit:archunit-junit5:1.0.1'
+    implementation 'com.rabbitmq:amqp-client:5.16.0'
 
 }
 
