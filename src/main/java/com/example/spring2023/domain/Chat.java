@@ -1,7 +1,5 @@
 package com.example.spring2023.domain;
 
-import com.example.spring2023.extern.response.BaseResponse;
-import com.example.spring2023.extern.response.ResponseCode;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
@@ -10,7 +8,7 @@ import java.util.List;
 public class Chat {
     /**Id чата*/
     private String id;
-    /**Ключи пользователей в чате*/
+   /* /**Ключи пользователей в чате*/
     /*@Getter
     private List<String> routeKeys;*/
     /**Участники чата.
@@ -31,10 +29,9 @@ public class Chat {
      * @param newName Новое имя чата
      * @return BaseResponse
      */
-    public BaseResponse setName(@NotNull String newName){
-        if(newName.replaceAll("\\s+", "").length()<0)
-            return new BaseResponse(null, ResponseCode.BAD,"Строка из пробелов");
-        name=newName;
-        return  new BaseResponse(null, ResponseCode.OK,"OK");
+    public void setName(@NotNull String newName){
+        newName=newName.replaceAll("\\s+", "");
+        if(!newName.isEmpty())
+            name=newName;
     }
 }

@@ -14,6 +14,7 @@ public class Message {
     /**Дата отправки сообщения*/
     @Getter
     private final LocalDateTime date;
+    private final LocalDateTime lastChange;
     /**Id отправившего сообщение*/
     @Getter
     private final String senderId;
@@ -25,8 +26,10 @@ public class Message {
         /*this.id=*/
         this.text=text;
         this.date=date;
+        this.lastChange=date;
         this.senderId=senderId;
         this.receiverId=receiverId;
+
     }
     /**Мегяет текст сообщения
      * @param newText новый текст сообщения

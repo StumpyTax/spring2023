@@ -29,7 +29,9 @@ public class User {
      * @param newPassword Новый пароль
      */
     public void changePassword(String newPassword){
-        password=newPassword;
+        if(!newPassword.isEmpty())
+            password=newPassword;
     }
+
 
 }
