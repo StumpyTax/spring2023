@@ -1,4 +1,4 @@
-package com.example.spring2023.domain.response;
+package com.example.spring2023.extern.response;
 
 import lombok.Getter;
 import org.springframework.lang.Nullable;

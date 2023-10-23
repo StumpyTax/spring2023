@@ -23,19 +23,28 @@ repositories {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+/*
     implementation 'org.springframework.boot:spring-boot-starter-security'
+*/
+/*
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+*/
     implementation 'org.springframework.boot:spring-boot-starter-web'
+/*
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
+*/
     implementation 'org.junit.jupiter:junit-jupiter:5.8.1'
     implementation 'org.junit.jupiter:junit-jupiter:5.8.1'
     implementation 'junit:junit:4.13.1'
+    implementation 'org.jetbrains:annotations:24.0.0'
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     runtimeOnly 'org.postgresql:postgresql'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+/*
     testImplementation 'org.springframework.security:spring-security-test'
+*/
 
 /*
     compile group: 'org.springframework.amqp', name: 'spring-rabbit', version: '3.0.6'
@@ -45,7 +54,7 @@ dependencies {
 */
     implementation 'com.tngtech.archunit:archunit-junit5:1.0.1'
     implementation 'com.rabbitmq:amqp-client:5.16.0'
-
+    runtimeOnly group: 'com.h2database', name: 'h2', version: '2.1.214'
 }
 
 tasks.named('test') {

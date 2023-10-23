@@ -1,7 +1,6 @@
 package com.example.spring2023.app;
 
-import com.example.spring2023.domain.response.BaseResponse;
-import com.fasterxml.jackson.databind.ser.Serializers;
+import com.example.spring2023.extern.response.BaseResponse;
 
 public interface IUserService {
     /**
@@ -11,12 +10,12 @@ public interface IUserService {
      * @param password Пароль.
      * @return Возвращает BaseResponse
      * */
-    public BaseResponse Register(String login,String password);
+    public BaseResponse register(String login,String password);
     /**Удаляет пользователя по ID.
      * @param id id Пользователя
      * @return Возвращает BaseResponse
      * */
-    public BaseResponse DeleteUser(String id);
+    public BaseResponse deleteUser(String id);
     /**
      * Авторизирует пользователя.
      *
@@ -25,7 +24,7 @@ public interface IUserService {
      *  @param  password Пароль.
      *  @return Возвращает BaseResponse
      * */
-    public BaseResponse Logging(String login, String password);
+    public BaseResponse logging(String login, String password);
     /**
      * Изменение пароля с подтверждением старого.
      *
@@ -34,7 +33,7 @@ public interface IUserService {
      *  @param  newPassword: новый пароль.
      *  @return Возвращает BaseResponse
      * */
-    public BaseResponse ChangePassword(String id,String oldPassword,String newPassword);
+    public BaseResponse changePassword(String id,String oldPassword,String newPassword);
     /**
      * Сбрасывает пароль.
      *
@@ -42,5 +41,5 @@ public interface IUserService {
      *  @param  newPassword: новый пароль.
      *  @return Возвращает BaseResponse
      * */
-    public BaseResponse ResetPassword(String id,String newPassword);
+    public BaseResponse resetPassword(String id,String newPassword);
 }

@@ -1,9 +1,23 @@
 server:
   port: ${PORT}
----
-spring:
-  profiles: test
 
----
 spring:
-  profiles: dev
+  datasource:
+    # H2 database configuration.
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:test
+    username: sa
+    password: secret
+
+  # H2 database console configuration.
+  h2:
+    console:
+      settings:
+        web-allow-others: true
+      path: /h2-console
+      enabled: true
+
+  jpa:
+    spring.jpa.database-platform:org.hibernate.dialect.H2Dialect
+
+

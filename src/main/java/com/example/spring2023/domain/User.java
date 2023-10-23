@@ -17,7 +17,7 @@ public class User {
     private String password;
     /**Ключ*/
     @Getter
-    private String routKey;
+    private String routeKey;
 
     public User(String name, String login,String password){
         this.name=name;
