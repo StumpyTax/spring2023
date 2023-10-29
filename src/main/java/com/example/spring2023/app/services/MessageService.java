@@ -22,7 +22,7 @@ public class MessageService {
      * @return Возвращает BaseResponse
      */
 /*
-    public BaseResponse create(User sender, String routeKey, String message, Date date);
+    public BaseResponse create(User sender, String routeKey, String message, LocalDateTime date);
 */
 
     /**Удаляет сообщение
