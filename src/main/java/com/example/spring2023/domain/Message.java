@@ -14,6 +14,7 @@ public class Message {
     /**Дата отправки сообщения*/
     @Getter
     private final LocalDateTime date;
+    /**Дата последнего изменения сообщения*/
     private final LocalDateTime lastChange;
     /**Id отправившего сообщение*/
     @Getter

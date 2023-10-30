@@ -1,30 +1,31 @@
 package com.example.spring2023.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
-
+@NoArgsConstructor
+@AllArgsConstructor
 public class Chat {
     /**Id чата*/
-    private String id;
+    @Getter
+    private Long id;
    /* /**Ключи пользователей в чате*/
     /*@Getter
     private List<String> routeKeys;*/
     /**Участники чата.
      * */
-    private List<String> membersIds;
+    @Getter
+    private List<User> members;
     /**Имя чата*/
     @Getter
     private String name;
+    /**Создатель чата*/
     @Getter
-    private String  ownerId;
-    public  Chat(/*List<String> routeKeys,*/List<String> membersIds,String name,String ownerId){
-        this.name=name;
-        this.ownerId=ownerId;
-        this.membersIds=membersIds;
-        /*this.rouetKeys=routeKeys;*/
-    }
+    private User  owner;
+
     /** Изменяет имя чата.
      * @param newName Новое имя чата
      * @return BaseResponse
@@ -33,5 +34,30 @@ public class Chat {
         newName=newName.replaceAll("\\s+", "");
         if(!newName.isEmpty())
             name=newName;
+    }
+
+    /**Добавляет пользователей
+     * @param users пользователи
+     */
+    public void addUsers(List<User> users){
+        this.members.addAll(users);
+    }
+
+    /**Проверяет есть ли пользователь в чате.
+     * @param user пользователь
+     * @return true или false
+     */
+    public boolean inUsers(@NotNull User user){
+        return members.stream().anyMatch(x -> x.getName().equals(user.getName())
+                                && x.getLogin().equals(user.getLogin())
+                                && x.getId().equals(user.getId())
+                                && x.getPassword().equals(user.getPassword()));
+    }
+
+    /**Удаляет пользователя из чата.
+     * @param userId Id пользователя.
+     */
+    public void deleteUser(Long userId){
+       members.removeIf(x->x.getId().equals(userId));
     }
 }

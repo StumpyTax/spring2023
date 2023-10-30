@@ -18,17 +18,14 @@ public class MessageEntity {
     @Getter
     @Column(name="text",nullable = false)
     private String text;
-
     @Getter
     @ManyToOne
-    @JoinColumn(name="sender_id")
+    @JoinColumn(name="sender")
     private UserEntity senderId;
-
     @Getter
     @ManyToOne
-    @JoinColumn(name="receiver_id")
+    @JoinColumn(name="receiver")
     private UserEntity receiverId;
-
     @Getter
     @Column(name="sending_date")
     private LocalDateTime date;

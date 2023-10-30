@@ -1,11 +1,13 @@
 package com.example.spring2023.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+@AllArgsConstructor
 public class User {
     /**Id пользователя*/
     @Getter
-    private int id;
+    private Long id;
     /**Имя пользователя*/
     @Getter
     private String name;
@@ -15,15 +17,16 @@ public class User {
     /**Пароль*/
     @Getter
     private String password;
-    /**Ключ*/
+/**Ключ*//*
     @Getter
-    private String routeKey;
+    private String routeKey;*/
 
     public User(String name, String login,String password){
         this.name=name;
         this.login=login;
         this.password=password;
     }
+
 
     /**Меняет пароль
      * @param newPassword Новый пароль
@@ -32,6 +35,4 @@ public class User {
         if(!newPassword.isEmpty())
             password=newPassword;
     }
-
-
 }

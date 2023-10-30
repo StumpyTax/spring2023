@@ -27,9 +27,6 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
 */
     implementation 'org.springframework.boot:spring-boot-starter-web'
-/*
-    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
-*/
     implementation 'org.junit.jupiter:junit-jupiter:5.8.1'
     implementation 'org.junit.jupiter:junit-jupiter:5.8.1'
     implementation 'junit:junit:4.13.1'
@@ -42,15 +39,13 @@ dependencies {
 /*
     testImplementation 'org.springframework.security:spring-security-test'
 */
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.15.1'
+    implementation 'org.springframework.amqp:spring-rabbit:3.0.10'
 
 /*
-    compile group: 'org.springframework.amqp', name: 'spring-rabbit', version: '3.0.6'
-*/
-/*
-    implementation 'org.springframework.amqp:spring-rabbit'
+    implementation 'org.springframework.boot:spring-boot-starter-amqp:2.2.2.RELEASE'
 */
     implementation 'com.tngtech.archunit:archunit-junit5:1.0.1'
-    implementation 'com.rabbitmq:amqp-client:5.16.0'
     runtimeOnly group: 'com.h2database', name: 'h2', version: '2.1.214'
 }
 

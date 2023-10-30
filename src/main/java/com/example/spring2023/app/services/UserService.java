@@ -1,7 +1,6 @@
 package com.example.spring2023.app.services;
 
 import com.example.spring2023.app.repositories.UserRepository;
-import com.example.spring2023.extern.response.BaseResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

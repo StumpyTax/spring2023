@@ -1,6 +1,12 @@
 spring:
 
-    datasource:
+  datasource:
       url: jdbc:h2:mem:test
       username: sa
       password: secret
+
+  rabbitmq:
+    host: localhost
+    port: 8010
+    username: guest
+    password: guest

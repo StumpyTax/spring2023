@@ -15,7 +15,7 @@ public class BaseResponse {
     @Getter
     private final String message;
 
-    public BaseResponse(@org.jetbrains.annotations.Nullable String res, ResponseCode code, String message) {
+    public BaseResponse(@Nullable String res, ResponseCode code, String message) {
         this.res = res;
         this.code = code;
         this.message=message;
