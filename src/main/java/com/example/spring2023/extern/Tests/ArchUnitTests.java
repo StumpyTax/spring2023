@@ -1,4 +1,4 @@
-package com.example.spring2023.Tests;
+package com.example.spring2023.extern.Tests;
 
 
 import com.tngtech.archunit.junit.ArchTest;

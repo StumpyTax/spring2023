@@ -1,4 +1,4 @@
-package com.example.spring2023.Tests;
+package com.example.spring2023.extern.Tests;
 
 import com.example.spring2023.domain.Chat;
 import com.example.spring2023.domain.User;
@@ -13,10 +13,12 @@ public class ChatTests {
 
     @Test
     public void setEmptyChatName(){
-        Chat chat=new Chat(1l,new ArrayList<User>(List.of(new User("gg","gfd","gfda"))),
+        RuntimeException thrown=Assert.assertThrows(RuntimeException.class,()->{
+            Chat chat=new Chat(1l,new ArrayList<User>(List.of(new User("gg","gfd","gfda"))),
                 "g",new User("fds","asdf","fsadf"));
-        chat.setName("");
-        Assert.assertEquals("g",chat.getName());
+            chat.setName("");});
+
+        Assert.assertEquals("Incorrect name",thrown.getMessage());
     }
     @Test
     public void setSpaceChatName(){

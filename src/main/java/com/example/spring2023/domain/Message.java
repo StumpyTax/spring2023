@@ -3,39 +3,77 @@ package com.example.spring2023.domain;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
-
 public class Message {
-    /**Id сообщения*/
+    /**
+     * Id сообщения
+     */
     @Getter
-    private String id;
-    /**Текст сообщения*/
+    private Long id;
+    /**
+     * Текст сообщения
+     */
     @Getter
     private String text;
-    /**Дата отправки сообщения*/
+    /**
+     * Дата отправки сообщения
+     */
     @Getter
     private final LocalDateTime date;
-    /**Дата последнего изменения сообщения*/
-    private final LocalDateTime lastChange;
-    /**Id отправившего сообщение*/
+    /**
+     * Дата последнего изменения сообщения
+     */
     @Getter
-    private final String senderId;
-    /**Id получателя сообщения*/
+    private LocalDateTime lastChange;
+    /**
+     * Отправитель сообщение
+     */
     @Getter
-    private final String receiverId;
+    private final User sender;
+    /**
+     * Получатель сообщения
+     */
+    @Getter
+    private final Chat receiver;
 
-    public Message(String text,LocalDateTime date,String senderId,String receiverId){
+    public Message(String text, LocalDateTime date, User sender, Chat receiver)throws RuntimeException {
         /*this.id=*/
-        this.text=text;
-        this.date=date;
-        this.lastChange=date;
-        this.senderId=senderId;
-        this.receiverId=receiverId;
-
+        setText(text);
+        this.date = date;
+        this.lastChange = date;
+        this.sender = sender;
+        this.receiver = receiver;
     }
-    /**Мегяет текст сообщения
+    public Message(Long id,String text, LocalDateTime date,LocalDateTime lastChange, User sender, Chat receiver)
+            throws RuntimeException {
+        this.id=id;
+        setText(text);
+        this.date = date;
+        setLastChange(lastChange);
+        this.sender = sender;
+        this.receiver = receiver;
+    }
+    /**
+     * Изменяет текст сообщения
+     *
      * @param newText новый текст сообщения
      */
-    public void changeText(String newText){
-        this.text=newText;
+    public void setText(String newText) throws RuntimeException{
+        if (!newText.replaceAll(" ","").isEmpty())
+            this.text = newText.strip();
+        else
+            throw new RuntimeException("Incorrect text");
+    }
+
+    /**
+     * Изменяет дату последнего изменения.
+     *
+     * @param date Дата
+     * @throws RuntimeException
+     */
+    public void setLastChange(LocalDateTime date) throws RuntimeException{
+        if(date.isAfter(lastChange))
+            this.lastChange=date;
+        else
+            throw new RuntimeException("Incorrect date");
     }
 }

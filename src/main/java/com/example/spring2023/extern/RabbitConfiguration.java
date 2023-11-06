@@ -13,12 +13,11 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class RabbitConfiguration {
-    Logger logger= LoggerFactory.getLogger((RabbitConfiguration.class));
+    Logger logger = LoggerFactory.getLogger((RabbitConfiguration.class));
+
     @Bean
     public ConnectionFactory connectionFactory() {
-        CachingConnectionFactory connectionFactory =
-                new CachingConnectionFactory("localhost");
-        return connectionFactory;
+        return new CachingConnectionFactory("localhost");
     }
 
     @Bean
@@ -30,32 +29,19 @@ public class RabbitConfiguration {
     public RabbitTemplate rabbitTemplate() {
         return new RabbitTemplate(connectionFactory());
     }
- /*   @Bean
-    public Queue queue(String name) {
-        return new Queue(name);
-    }*/
+
     @Bean
-    public Queue myQueue1() {
-        return new Queue("query-example-3-1");
+    public Queue messagesQueue() {
+        return new Queue("messagesQueue", true);
     }
 
     @Bean
-    public Queue myQueue2() {
-        return new Queue("query-example-3-2");
+    public DirectExchange directExchange() {
+        return new DirectExchange("messagesExchange", true, false);
     }
 
     @Bean
-    public FanoutExchange fanoutExchangeA(){
-        return new FanoutExchange("exchange-example-3");
-    }
-
-    @Bean
-    public Binding binding1(){
-        return BindingBuilder.bind(myQueue1()).to(fanoutExchangeA());
-    }
-
-    @Bean
-    public Binding binding2(){
-        return BindingBuilder.bind(myQueue2()).to(fanoutExchangeA());
+    public Binding bindingMessages() {
+        return BindingBuilder.bind(messagesQueue()).to(directExchange()).with("messages");
     }
 }

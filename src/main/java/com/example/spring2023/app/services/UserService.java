@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserService  {
+public class UserService {
 
     @Autowired
     private UserRepository repository;
@@ -13,50 +13,55 @@ public class UserService  {
     /**
      * Регистрирует нового ползователя.
      *
-     * @param login Логин.
+     * @param login    Логин.
      * @param password Пароль.
      * @return Возвращает BaseResponse
-     * */
-/*
-    public BaseResponse register(String login, String password);
-*/
-    /**Удаляет пользователя по ID.
+     */
+    public void register(String login, String password) throws RuntimeException {
+
+    }
+
+    /**
+     * Удаляет пользователя по ID.
+     *
      * @param id id Пользователя
      * @return Возвращает BaseResponse
-     * */
-/*
-    public BaseResponse deleteUser(String id);
-*/
+     */
+    public void deleteUser(String id) throws RuntimeException {
+
+    }
+
     /**
      * Авторизирует пользователя.
-     *
+     * <p>
      * Параметры:
-     *  @param  login  Логин.
-     *  @param  password Пароль.
-     *  @return Возвращает BaseResponse
-     * */
-/*
-    public BaseResponse logging(String login, String password);
-*/
+     *
+     * @param login    Логин.
+     * @param password Пароль.
+     * @return Возвращает BaseResponse
+     */
+    public void logging(String login, String password) throws RuntimeException {
+    }
+
     /**
      * Изменение пароля с подтверждением старого.
      *
-     *  @param  id:id пользователя.
-     *  @param  oldPassword: текущий пароль.
-     *  @param  newPassword: новый пароль.
-     *  @return Возвращает BaseResponse
-     * */
-/*
-    public BaseResponse changePassword(String id,String oldPassword,String newPassword);
-*/
+     * @param id          id        пользователя.
+     * @param oldPassword текущий пароль.
+     * @param newPassword новый пароль.
+     * @return Возвращает BaseResponse
+     */
+    public void changePassword(String id, String oldPassword, String newPassword) throws RuntimeException {
+    }
+
     /**
      * Сбрасывает пароль.
      *
-     *  @param  id:id пользователя.
-     *  @param  newPassword: новый пароль.
-     *  @return Возвращает BaseResponse
-     * */
-/*
-    public BaseResponse resetPassword(String id,String newPassword);
-*/
+     * @param id          id пользователя.
+     * @param newPassword новый пароль.
+     * @return Возвращает BaseResponse
+     */
+    public void resetPassword(String id, String newPassword) throws RuntimeException {
+
+    }
 }
