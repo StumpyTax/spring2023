@@ -4,39 +4,35 @@ import com.example.spring2023.domain.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-@AllArgsConstructor
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor
 @Entity
-@Table(name="users")
+@Table(name = "users")
 public class UserEntity {
     @Id
     @GeneratedValue
-    @Column(name="Id",nullable = false)
+    @Column(name = "Id", nullable = false)
     @Getter
     private long id;
-    @Column(name="login",nullable = false)
+    @Column(name = "login", nullable = false)
     @Getter
     private String login;
     @Getter
-    @Column(name="password",nullable = false)
-    private  String password;
+    @Column(name = "password", nullable = false)
+    private String password;
     @Getter
-    @Column(name="name",nullable = false)
-    private  String name;
+    @Column(name = "name", nullable = false)
+    private String name;
 
-    public UserEntity() {
+    public UserEntity(User user) {
+        this.id = user.getId();
+        this.name = user.getName();
+        this.login = user.getLogin();
+        this.password = user.getPassword();
     }
-    public UserEntity(String login,String password,String name){
-        this.login=login;
-        this.password=password;
-        this.name=name;
-    }
-    public  UserEntity(User user){
-        this.id=user.getId();
-        this.name=user.getName();
-        this.login=user.getLogin();
-        this.password= user.getPassword();
-    }
-    public User toUser(){
-        return  new User(this.id,this.name,this.login,this.password);
+
+    public User toUser() {
+        return new User(this.id, this.name, this.login, this.password);
     }
 }

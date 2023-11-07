@@ -28,9 +28,9 @@ public class ChatService {
     /** Получение чата по ID
      * @param chatId Id чата
      * @return Чат
-     * @throws JsonProcessingException
+     * @throws RuntimeException
      */
-    public  ChatEntity get(Long chatId) throws JsonProcessingException, RuntimeException {
+    public  ChatEntity get(Long chatId) throws RuntimeException {
         Optional<ChatEntity> chat=chatRepository.findById(chatId);
         if(chat.isEmpty())
             throw  new RuntimeException("No chat with id: "+chatId);
@@ -62,6 +62,7 @@ public class ChatService {
      * @param chatId Id чата
      * @param usersIds ID пользователей
      * @return Измененный чат
+     * @throws RuntimeException
      */
     public ChatEntity addUsers(Long chatId,List<Long> usersIds)throws RuntimeException{
         Optional<ChatEntity> chatEntity=chatRepository.findById(chatId);
@@ -80,6 +81,8 @@ public class ChatService {
      * @param chatId Id чата
      * @param userId Id Пользователя
      * @return  Измененный чат
+     * @throws RuntimeException
+     *
      */
     public  ChatEntity deleteUser(Long chatId, Long userId) throws RuntimeException{
         Optional<ChatEntity> chatEntity=chatRepository.findById(chatId);
@@ -101,6 +104,7 @@ public class ChatService {
      * @param chatId Id чата
      * @param newName Новое имя чата
      * @return Старое и новое имя чата
+     * @throws RuntimeException
      */
     public  String changeName(Long chatId,String newName) throws RuntimeException{
         Optional<ChatEntity> chatEntity=chatRepository.findById(chatId);

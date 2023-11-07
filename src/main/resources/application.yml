@@ -20,4 +20,18 @@ spring:
   jpa:
     spring.jpa.database-platform:org.hibernate.dialect.H2Dialect
 
-
+  rabbitmq:
+    queues:
+      messages:
+        name: messagesQueue
+        durable: true
+      callback:
+        name: callBackQueue
+        durable: true
+    exchanges:
+      messages:
+        name: messagesExchange
+        durable: true
+        autoDelete: false
+    bindings:
+      routingKey: messages

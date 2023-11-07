@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -22,7 +23,31 @@ public class MessageService {
     private UserRepository userRepository;
     @Autowired
     private ChatRepository chatRepository;
-    //get
+
+
+    /**
+     * Получение всех сообщений чата
+     *
+     * @param chatId id чата
+     * @param userId Пользователь, который пытается получить сообщения.
+     * @return Список найденных сообщений
+     * @throws RuntimeException
+     */
+    public List<MessageEntity> getAll(Long chatId, Long userId) throws RuntimeException{
+        return null;
+    }
+
+    /**
+     * Получение сообщения по id
+     *
+     * @param messageId id сообщения
+     * @param userId Пользователь, который пытается получить сообщение.
+     * @return Найденное сообщение
+     * @throws RuntimeException
+     */
+    public MessageEntity get(Long messageId, Long userId) throws RuntimeException{
+        return null;
+    }
 
     /**
      * Создает сообщение
@@ -32,6 +57,7 @@ public class MessageService {
      * @param messageText Текст сообщения
      * @param date        Дата отправки
      * @return Возвращает BaseResponse
+     * @throws RuntimeException
      */
     public Message create(Long senderId, Long chatId, String messageText, LocalDateTime date) throws RuntimeException {
         Optional<UserEntity> sender = userRepository.findById(senderId);
@@ -51,6 +77,7 @@ public class MessageService {
      * @param messageId id сообщения
      * @param userId    id пользователя
      * @return Возвращает BaseResponse
+     * @throws RuntimeException
      */
     public Boolean canChange(Long messageId, Long userId) throws RuntimeException {
         Optional<MessageEntity> message = messageRepository.findById(messageId);
@@ -69,6 +96,7 @@ public class MessageService {
      * @param message Сообщение
      * @param user    Пользователь
      * @return
+     * @throws RuntimeException
      */
     private boolean canChange(MessageEntity message, UserEntity user) {
         return message.getSender().getId() == user.getId();
@@ -80,6 +108,7 @@ public class MessageService {
      * @param messageId Id Сообщения
      * @param userId    Id того кто пытается удалить сообщение
      * @return Возвращает BaseResponse
+     * @throws RuntimeException
      */
     public void delete(Long messageId, Long userId) throws RuntimeException {
         Optional<MessageEntity> message = messageRepository.findById(messageId);
@@ -99,6 +128,7 @@ public class MessageService {
      * @param messageId id Сообщения
      * @param userId    id Пользователя пытающигося изменить сообшение.
      * @return Возвращает BaseResponse
+     * @throws RuntimeException
      */
     public void change(Long messageId, Long userId, String newText,LocalDateTime date) throws RuntimeException {
         Optional<MessageEntity> messageEntity = messageRepository.findById(messageId);

@@ -16,6 +16,7 @@ public class UserService {
      * @param login    Логин.
      * @param password Пароль.
      * @return Возвращает BaseResponse
+     * @throws RuntimeException
      */
     public void register(String login, String password) throws RuntimeException {
 
@@ -26,6 +27,7 @@ public class UserService {
      *
      * @param id id Пользователя
      * @return Возвращает BaseResponse
+     * @throws RuntimeException
      */
     public void deleteUser(String id) throws RuntimeException {
 
@@ -39,6 +41,7 @@ public class UserService {
      * @param login    Логин.
      * @param password Пароль.
      * @return Возвращает BaseResponse
+     * @throws RuntimeException
      */
     public void logging(String login, String password) throws RuntimeException {
     }
@@ -46,10 +49,12 @@ public class UserService {
     /**
      * Изменение пароля с подтверждением старого.
      *
-     * @param id          id        пользователя.
+     * @param id          id пользователя.
      * @param oldPassword текущий пароль.
      * @param newPassword новый пароль.
      * @return Возвращает BaseResponse
+     * @throws RuntimeException
+     *
      */
     public void changePassword(String id, String oldPassword, String newPassword) throws RuntimeException {
     }
@@ -60,6 +65,7 @@ public class UserService {
      * @param id          id пользователя.
      * @param newPassword новый пароль.
      * @return Возвращает BaseResponse
+     * @throws RuntimeException
      */
     public void resetPassword(String id, String newPassword) throws RuntimeException {
 

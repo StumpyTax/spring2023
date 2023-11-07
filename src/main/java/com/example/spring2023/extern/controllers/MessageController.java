@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -22,13 +23,18 @@ public class MessageController {
     @Autowired
     MessageService messageService;
 
+    @Value("${spring.rabbitmq.exchange.messages.name}")
+    String messagesExchangeName;
+    @Value("${spring.rabbitmq.bindings.routingKey}")
+    public String routingKey;
+
     @RequestMapping("/send")
     @ResponseBody
     public BaseResponse send(Long chatId, Long senderId, String messageText, LocalDateTime date) {
         try {
             Message message = messageService.create(senderId, chatId, messageText, date);
-            template.setExchange("messagesExchange");
-            template.convertAndSend("messages", message);
+            template.setExchange(messagesExchangeName);
+            template.convertAndSend(routingKey, message);
             return new BaseResponse("", ResponseCode.OK, "OK");
         } catch (Exception e) {
             return new BaseResponse("", ResponseCode.BAD, e.getMessage());

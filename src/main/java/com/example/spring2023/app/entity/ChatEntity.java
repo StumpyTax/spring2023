@@ -15,44 +15,39 @@ import java.util.List;
 public class ChatEntity {
     @Id
     @Getter
-    @Column(name = "Id", nullable = false)
+    @Column(name = "Id",nullable = false)
     @GeneratedValue
     private Long id;
     @Getter
-    @Column(name = "name", nullable = false)
-    private String name;
+    @Column(name="name",nullable = false)
+    private  String name;
     @Getter
-    @JoinColumn(name = "users")
+    @JoinColumn(name="users")
     @ManyToMany
     private List<UserEntity> users;
     @Getter
-    @JoinColumn(name = "owner")
+    @JoinColumn(name="owner")
     @OneToOne
     private UserEntity owner;
 
-    public ChatEntity() {
+    public ChatEntity(){}
+    public ChatEntity(String name, List<UserEntity> users, UserEntity owner){
+        this.name=name;
+        this.users=users;
+        this.owner=owner;
+    }
+    public ChatEntity(@NotNull Chat chat){
+        this.id=chat.getId();
+        this.name= chat.getName();
+        this.users=chat.getMembers().stream().map(UserEntity::new).toList();
+        this.owner=new UserEntity(chat.getOwner());
     }
 
-    public ChatEntity(String name, List<UserEntity> users, UserEntity owner) {
-        this.name = name;
-        this.users = users;
-        this.owner = owner;
-    }
-
-    public ChatEntity(@NotNull Chat chat) {
-        this.id = chat.getId();
-        this.name = chat.getName();
-        this.users = chat.getMembers().stream().map(UserEntity::new).toList();
-        this.owner = new UserEntity(chat.getOwner());
-    }
-
-    /**
-     * Создает Chat на основе этого ChatEntity
-     *
+    /** Создает Chat на основе этого ChatEntity
      * @return Чат
      */
-    public Chat toChat() {
-        return new Chat(id, users.stream().map(UserEntity::toUser).toList(), name, owner.toUser());
+    public Chat toChat(){
+        return new Chat(id,users.stream().map(UserEntity::toUser).toList(),name,owner.toUser());
     }
 
 }
