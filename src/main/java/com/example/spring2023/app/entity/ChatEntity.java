@@ -29,6 +29,10 @@ public class ChatEntity {
     @JoinColumn(name="owner")
     @OneToOne
     private UserEntity owner;
+    @Getter
+    @OneToMany(mappedBy = "receiver")
+    @JoinColumn(name="messages")
+    private List<MessageEntity> messages;
 
     public ChatEntity(){}
     public ChatEntity(String name, List<UserEntity> users, UserEntity owner){

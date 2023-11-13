@@ -1,5 +1,4 @@
-package com.example.spring2023.extern.Tests;
-
+package com.tests;
 
 import com.tngtech.archunit.junit.ArchTest;
 import com.tngtech.archunit.lang.ArchRule;

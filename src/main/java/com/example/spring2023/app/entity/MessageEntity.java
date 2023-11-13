@@ -26,7 +26,7 @@ public class MessageEntity {
     private UserEntity sender;
     @Getter
     @ManyToOne
-    @JoinColumn(name = "receiver")
+    @JoinColumn(name = "chat")
     private ChatEntity receiver;
     @Getter
     @Column(name = "sending_date")
@@ -42,6 +42,7 @@ public class MessageEntity {
         this.receiver = new ChatEntity(message.getReceiver());
         this.date = message.getDate();
         this.lastChange = message.getLastChange();
+
     }
     public Message toMessage(){
         return new Message(id,text,date,lastChange,sender.toUser(),receiver.toChat());

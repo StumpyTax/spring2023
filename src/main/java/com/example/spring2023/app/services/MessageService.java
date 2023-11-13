@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,7 +35,11 @@ public class MessageService {
      * @throws RuntimeException
      */
     public List<MessageEntity> getAll(Long chatId, Long userId) throws RuntimeException{
-        return null;
+        ChatEntity chat=chatRepository.findById(chatId)
+                .orElseThrow(()->new RuntimeException("No such chat with id: "+chatId));
+        UserEntity user=userRepository.findById(userId)
+                .orElseThrow(()->new RuntimeException("No user with id: "+userId+" in chat with id: "+chatId ));
+        return new ArrayList<>();
     }
 
     /**

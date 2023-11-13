@@ -1,10 +1,10 @@
-package com.example.spring2023.extern.Tests;
+package com.tests;
 
 import com.example.spring2023.domain.Chat;
 import com.example.spring2023.domain.Message;
 import com.example.spring2023.domain.User;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
 
@@ -12,41 +12,33 @@ public class MessagesTests {
 
     @Test
     public void setEmptyText(){
-        try {
+
+        RuntimeException thrown=Assertions.assertThrows(RuntimeException.class, ()->{
             Message message = new Message("adsf", LocalDateTime.now(),new User(),new Chat());
-            message.setText("");
-        }
-        catch (Exception e){
-            Assert.assertEquals(e.getMessage(),"Incorrect text");
-        }
+            message.setText("");});
+        Assertions.assertEquals("Incorrect text", thrown.getMessage());
     }
     @Test
     public void setSpaceText(){
-        try {
+        RuntimeException thrown=Assertions.assertThrows(RuntimeException.class, ()->{
             Message message = new Message("adsf", LocalDateTime.now(),new User(),new Chat());
-            message.setText("           ");
-        }
-        catch (Exception e){
-            Assert.assertEquals(e.getMessage(),"Incorrect text");
-        }
+            message.setText("           ");});
+        Assertions.assertEquals("Incorrect text", thrown.getMessage());
     }
 
     @Test
     public void setUserPassword(){
         Message message = new Message("adsf", LocalDateTime.now(),new User(),new Chat());
         message.setText("ggg");
-        Assert.assertEquals("ggg",message.getText());
+        Assertions.assertEquals("ggg", message.getText());
     }
 
     @Test
     public  void setLastChangeBefore(){
-        try {
+        RuntimeException thrown=Assertions.assertThrows(RuntimeException.class, ()->{
             Message message = new Message("adsf", LocalDateTime.now(), new User(), new Chat());
-            message.setLastChange(LocalDateTime.now().minusMonths(9));
-        }
-        catch (Exception e){
-            Assert.assertEquals("Incorrect date",e.getMessage());
-        }
+            message.setLastChange(LocalDateTime.now().minusMonths(9));});
+        Assertions.assertEquals("Incorrect date", thrown.getMessage());
     }
 
     @Test
@@ -54,7 +46,7 @@ public class MessagesTests {
             Message message = new Message("adsf", LocalDateTime.now(), new User(), new Chat());
             LocalDateTime date=LocalDateTime.now().plusMonths(9);
             message.setLastChange(date);
-            Assert.assertEquals(date.toString(),message.getLastChange().toString());
+            Assertions.assertEquals(date.toString(), message.getLastChange().toString());
     }
 
 }

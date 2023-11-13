@@ -1,9 +1,9 @@
-package com.example.spring2023.extern.Tests;
+package com.tests;
 
 import com.example.spring2023.domain.Chat;
 import com.example.spring2023.domain.User;
 import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Collections;

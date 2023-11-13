@@ -1,9 +1,10 @@
-package com.example.spring2023.extern.Tests;
+package com.tests;
 
 import com.example.spring2023.app.entity.UserEntity;
 import com.example.spring2023.domain.User;
 import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class UserTests {
     @Test
@@ -12,7 +13,7 @@ public class UserTests {
                     User user = new User("g", "g", "g");
                     user.setPassword("");
                 });
-            Assert.assertEquals("Incorrect password",thrown.getMessage());
+            Assertions.assertEquals("Incorrect password", thrown.getMessage());
         }
     @Test
     public void setSpaceUserPassword(){
@@ -20,7 +21,7 @@ public class UserTests {
             User user = new User("g", "g", "g");
             user.setPassword("            ");
         });
-            Assert.assertEquals("Incorrect password",thrown.getMessage());
+            Assertions.assertEquals("Incorrect password", thrown.getMessage());
 
     }
 
@@ -28,7 +29,7 @@ public class UserTests {
     public void setUserPassword(){
         User user=new User("g","g","g");
         user.setPassword("ggg");
-        Assert.assertEquals("ggg",user.getPassword());
+        Assertions.assertEquals("ggg", user.getPassword());
     }
     @Test
     public void setEmptyUserName(){
@@ -36,7 +37,7 @@ public class UserTests {
             User user = new User("g", "g", "g");
             user.setName("");
         });
-            Assert.assertEquals("Incorrect name",thrown.getMessage());
+            Assertions.assertEquals("Incorrect name", thrown.getMessage());
 
     }
     @Test
@@ -45,7 +46,7 @@ public class UserTests {
             User user = new User("g", "g", "g");
             user.setName("            ");
         });
-            Assert.assertEquals("Incorrect name",thrown.getMessage());
+            Assertions.assertEquals("Incorrect name", thrown.getMessage());
 
     }
 
@@ -53,7 +54,7 @@ public class UserTests {
     public void setUserName(){
         User user=new User("g","g","g");
         user.setName("ggg");
-        Assert.assertEquals("ggg",user.getName());
+        Assertions.assertEquals("ggg", user.getName());
     }
     @Test
     public void setEmptyUserLogin(){
@@ -61,7 +62,7 @@ public class UserTests {
             User user = new User("g", "g", "g");
             user.setLogin("");
         });
-            Assert.assertEquals("Incorrect login",thrown.getMessage());
+            Assertions.assertEquals("Incorrect login", thrown.getMessage());
 
     }
     @Test
@@ -70,7 +71,7 @@ public class UserTests {
             User user = new User("g", "g", "g");
             user.setLogin("            ");
         });
-            Assert.assertEquals("Incorrect login",thrown.getMessage());
+            Assertions.assertEquals("Incorrect login", thrown.getMessage());
 
     }
 
@@ -78,22 +79,22 @@ public class UserTests {
     public void setUserLogin(){
         User user=new User("g","g","g");
         user.setLogin("ggg");
-        Assert.assertEquals("ggg",user.getLogin());
+        Assertions.assertEquals("ggg", user.getLogin());
     }
     @Test
     public  void userToUserEntity(){
-        User user=new User(1l,"g","g","g");
+        User user=new User(1L,"g","g","g");
         UserEntity entity=new UserEntity(user);
-        Assert.assertTrue(user.getId()==entity.getId()
+        Assertions.assertTrue(user.getId()==entity.getId()
                 && user.getLogin().equals(entity.getLogin())
                 && user.getName().equals(entity.getName())
                 && user.getPassword().equals(entity.getPassword()));
     }
     @Test
     public  void userEntityToUser(){
-        UserEntity entity=new UserEntity(1l,"g","g","g");
+        UserEntity entity=new UserEntity(1L,"g","g","g");
         User user=entity.toUser();
-        Assert.assertTrue(user.getId()==entity.getId()
+        Assertions.assertTrue(user.getId()==entity.getId()
                 && user.getLogin().equals(entity.getLogin())
                 && user.getName().equals(entity.getName())
                 && user.getPassword().equals(entity.getPassword()));

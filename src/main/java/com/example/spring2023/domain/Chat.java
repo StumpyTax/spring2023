@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
@@ -29,12 +30,17 @@ public class Chat {
      */
     @Getter
     private User owner;
-
+    /**
+     * Список сообщений чата
+     * */
+    @Getter
+    private List<Message> messages;
     public  Chat(Long id,List<User> members,String name,User owner) throws RuntimeException{
         this.id=id;
         this.members=members;
         setName(name);
         this.owner=owner;
+        this.messages=new ArrayList<Message>();
     }
     /**
      * Изменяет имя чата.

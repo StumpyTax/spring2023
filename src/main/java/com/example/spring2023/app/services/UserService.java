@@ -29,7 +29,7 @@ public class UserService {
      * @return Возвращает BaseResponse
      * @throws RuntimeException
      */
-    public void deleteUser(String id) throws RuntimeException {
+    public void delete(String id) throws RuntimeException {
 
     }
 

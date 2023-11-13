@@ -39,7 +39,7 @@ public class ChatController {
      * @param usersIds ID пользователей чата
      * @return BaseResponse
      */
-    @GetMapping("/create")
+    @PostMapping("/create")
     public BaseResponse create(@RequestParam String name,
                                @RequestParam Long ownerId,
                                @RequestParam List<Long> usersIds){
@@ -52,4 +52,47 @@ public class ChatController {
         }
     }
 
+    /**
+     * Добавляет пользователей в чат
+     *
+     * @param chatId id чата
+     * @param userIds id пользователей
+     * @return BaseResponse
+     */
+    @PutMapping("/addUsers")
+    public BaseResponse addUsers(@RequestParam Long chatId,@RequestParam List<Long> userIds){
+        try{
+            service.addUsers(chatId,userIds);
+            return new BaseResponse("",ResponseCode.OK,"Ok");
+        }
+        catch (Exception e){
+            return new BaseResponse("",ResponseCode.BAD,e.getMessage());
+        }
+    }
+
+    /**
+     * Удаляет пользователя из чата
+     *
+     * @param chatId id чата
+     * @param userId id пользователя
+     * @return BaseResponse
+     */
+    @PutMapping("/deleteUsers")
+    public BaseResponse deleteUsers(@RequestParam Long chatId,@RequestParam Long userId ){
+        try{
+            service.deleteUser(chatId,userId);
+            return new BaseResponse("",ResponseCode.OK,"Ok");
+        }
+        catch (Exception e) {
+            return new BaseResponse("", ResponseCode.BAD, e.getMessage());
+        }
+    }
+    public BaseResponse changeName(@RequestParam Long chatId,@RequestParam String newName ){
+        try{
+           return new BaseResponse(service.changeName(chatId,newName),ResponseCode.OK,"Ok");
+        }
+        catch (Exception e){
+            return new BaseResponse("", ResponseCode.BAD, e.getMessage());
+        }
+    }
 }
