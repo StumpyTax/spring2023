@@ -1,1 +1,2 @@
-rootProject.name = 'spring2023'
+include 'main'
+include 'auth'
