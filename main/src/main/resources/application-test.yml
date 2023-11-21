@@ -6,7 +6,7 @@ spring:
       password: secret
 
   rabbitmq:
-    address: 78.153.5.24
-    port: 5672
+    address: localhost
+    port: 8010
     username: guest
     password: guest
