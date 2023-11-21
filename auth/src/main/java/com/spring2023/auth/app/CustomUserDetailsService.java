@@ -1,6 +1,6 @@
 package com.spring2023.auth.app;
 
-import com.spring2023.auth.app.repositories.entity.UserEntity;
+import com.spring2023.auth.app.entity.UserEntity;
 import com.spring2023.auth.app.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

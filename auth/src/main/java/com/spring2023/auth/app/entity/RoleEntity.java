@@ -1,4 +1,4 @@
-package com.spring2023.auth.app.repositories.entity;
+package com.spring2023.auth.app.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;

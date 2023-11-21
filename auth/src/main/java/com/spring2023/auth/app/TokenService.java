@@ -55,8 +55,7 @@ public class TokenService  {
     public String parseToken(String token) {
         try {
             SignedJWT decodedJWT = SignedJWT.parse(token);
-            String subject = decodedJWT.getJWTClaimsSet().getSubject();
-            return subject;
+            return decodedJWT.getJWTClaimsSet().getSubject();
         } catch (ParseException e) {
             e.printStackTrace();
         }

@@ -1,7 +1,7 @@
 package com.spring2023.auth.app;
 
-import com.spring2023.auth.app.repositories.entity.RoleEntity;
-import com.spring2023.auth.app.repositories.entity.UserEntity;
+import com.spring2023.auth.app.entity.RoleEntity;
+import com.spring2023.auth.app.entity.UserEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
