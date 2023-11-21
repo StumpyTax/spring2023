@@ -14,7 +14,7 @@ public class Receiver {
     @Value("${spring.rabbitmq.queues.messages.name}")
     String messagesQueueName;
 
-    @RabbitListener(queues ="${messageName}")
+    @RabbitListener(queues ="${spring.rabbitmq.queues.messages.name}")
     public void worker(String message) {
         logger.info("accepted on worker: " + message);
     }

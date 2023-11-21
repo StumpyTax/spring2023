@@ -23,7 +23,7 @@ public class MessageController {
     @Autowired
     MessageService messageService;
 
-    @Value("${spring.rabbitmq.exchange.messages.name}")
+    @Value("${spring.rabbitmq.exchanges.messages.name}")
     String messagesExchangeName;
     @Value("${spring.rabbitmq.bindings.routingKey}")
     public String routingKey;
