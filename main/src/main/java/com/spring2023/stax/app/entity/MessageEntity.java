@@ -1,7 +1,7 @@
 package com.spring2023.stax.app.entity;
 
 
-import com.spring2023.stax.domain.Message;
+import com.spring2023.stax.domain.*;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Entity
 @NoArgsConstructor
 @Table(name = "messages")
-public class MessageEntity {
+public class MessageEntity implements IMessage {
     @Id
     @GeneratedValue
     @Column(name = "Id", nullable = false)
@@ -30,16 +30,38 @@ public class MessageEntity {
     @Column(name = "change_date")
     private LocalDateTime lastChange;
 
-    public MessageEntity(Message message) {
-        this.id = message.getId();
-        this.text = getText();
-        this.sender = new UserEntity(message.getSender());
-        this.receiver = new ChatEntity(message.getReceiver());
-        this.date = message.getDate();
-        this.lastChange = message.getLastChange();
-
+    public MessageEntity(String text, LocalDateTime date,
+                         IUser sender, IChat receiver)throws RuntimeException {
+        /*this.id=*/
+        setText(text);
+        this.date = date;
+        this.lastChange = date;
+        this.sender = (UserEntity) sender;
+        this.receiver = (ChatEntity) receiver;
     }
-    public Message toMessage(){
-        return new Message(id,text,date,lastChange,sender.toUser(),receiver.toChat());
+    public MessageEntity(Long id, String text,
+                         LocalDateTime date, LocalDateTime lastChange,
+                         IUser sender, IChat receiver)
+            throws RuntimeException {
+        this.id=id;
+        setText(text);
+        this.date = date;
+        setLastChange(lastChange);
+        this.sender = (UserEntity) sender;
+        this.receiver = (ChatEntity) receiver;
+    }
+
+    public void setText(String newText) throws RuntimeException{
+        if (!newText.replaceAll(" ","").isEmpty())
+            this.text = newText.strip();
+        else
+            throw new RuntimeException("Incorrect text");
+    }
+
+    public void setLastChange(LocalDateTime date) throws RuntimeException{
+        if(date.isAfter(lastChange))
+            this.lastChange=date;
+        else
+            throw new RuntimeException("Incorrect date");
     }
 }

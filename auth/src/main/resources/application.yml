@@ -1,6 +1,7 @@
 rsa.private-key: private.pem
 rsa.public-key: public.pem
-
+server:
+  port: 8090
 
 spring:
   datasource:

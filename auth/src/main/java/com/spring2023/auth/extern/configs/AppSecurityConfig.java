@@ -9,6 +9,7 @@ import com.nimbusds.jose.proc.SecurityContext;
 import com.spring2023.auth.app.CustomUserDetailsService;
 import com.spring2023.auth.app.RsaProperties;
 import com.spring2023.auth.app.TokenService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -19,7 +20,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
@@ -33,7 +33,8 @@ import org.springframework.security.web.SecurityFilterChain;
 public class AppSecurityConfig {
 
     private final RsaProperties rsaKeys;
-
+    @Autowired
+    CustomUserDetailsService userDetailsService;
     public AppSecurityConfig(RsaProperties rsaKeys) {
         this.rsaKeys = rsaKeys;
     }
@@ -44,14 +45,9 @@ public class AppSecurityConfig {
     }
 
     @Bean
-    public UserDetailsService customUserDetailsService() {
-        return new CustomUserDetailsService();
-    }
-
-    @Bean
     public AuthenticationManager authManager() {
         var authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(customUserDetailsService());
+        authProvider.setUserDetailsService(userDetailsService);
         authProvider.setPasswordEncoder(passwordEncoder());
         return new ProviderManager(authProvider);
     }
@@ -87,6 +83,7 @@ public class AppSecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .oauth2ResourceServer(OAuth2ResourceServerConfigurer :: jwt )
                 .build();*/
+        http.headers().frameOptions().disable();
         return http.formLogin(AbstractHttpConfigurer::disable) // <-- this will disable the login route
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeRequests(auth -> auth

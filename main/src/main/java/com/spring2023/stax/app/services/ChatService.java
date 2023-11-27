@@ -4,7 +4,8 @@ import com.spring2023.stax.app.entity.ChatEntity;
 import com.spring2023.stax.app.entity.UserEntity;
 import com.spring2023.stax.app.repositories.ChatRepository;
 import com.spring2023.stax.app.repositories.UserRepository;
-import com.spring2023.stax.domain.Chat;
+import com.spring2023.stax.domain.IUser;
+import com.spring2023.stax.domain.models.Chat;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,10 +39,12 @@ public class ChatService {
      * @return Чат
      */
     public ChatEntity create(String name, Long ownerId, List<Long> usersIds) throws RuntimeException{
-        List<UserEntity> users= StreamSupport.stream(userRepository.findAllById(usersIds).spliterator(), false)
-                .toList();
-        UserEntity owner=userRepository.findById(ownerId).orElseThrow(()->new RuntimeException("No such user with ownerId: "+ownerId));
-        ChatEntity newChat=new ChatEntity(name,users,owner);
+        List<UserEntity> users= StreamSupport.stream(
+                userRepository.findAllById(usersIds)
+                        .spliterator(), false).toList();
+        UserEntity owner=userRepository.findById(ownerId)
+                .orElseThrow(()->new RuntimeException("No such user with ownerId: "+ownerId));
+        ChatEntity newChat=new ChatEntity(name,users.stream().map(x->(IUser)x).toList(),owner);
         chatRepository.save(newChat);
         if(users.size()<usersIds.size())
             throw  new RuntimeException("Part of ids not found:"+users.size()+" of "+usersIds.size());
@@ -57,11 +60,11 @@ public class ChatService {
      * @throws RuntimeException
      */
     public void addUsers(Long chatId, List<Long> usersIds)throws RuntimeException{
-        ChatEntity chatEntity=chatRepository.findById(chatId).orElseThrow(()->new RuntimeException("No such chat with chatId: "+chatId));
+        ChatEntity chat=chatRepository.findById(chatId)
+                .orElseThrow(()->new RuntimeException("No such chat with chatId: "+chatId));
         List<UserEntity> users=StreamSupport.stream(userRepository.findAllById(usersIds).spliterator(),false)
                 .toList();
-        Chat chat=chatEntity.toChat();
-        chat.addUsers(users.stream().map(UserEntity::toUser).toList());
+        chat.addUsers(users);
         ChatEntity updChat=new ChatEntity(chat);
         chatRepository.save(updChat);
     }

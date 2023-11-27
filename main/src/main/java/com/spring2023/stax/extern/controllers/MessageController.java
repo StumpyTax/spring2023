@@ -1,7 +1,7 @@
 package com.spring2023.stax.extern.controllers;
 
+import com.spring2023.stax.app.entity.MessageEntity;
 import com.spring2023.stax.app.services.MessageService;
-import com.spring2023.stax.domain.Message;
 import com.spring2023.stax.extern.response.BaseResponse;
 import com.spring2023.stax.extern.response.ResponseCode;
 import org.slf4j.Logger;
@@ -32,7 +32,7 @@ public class MessageController {
     @ResponseBody
     public BaseResponse send(Long chatId, Long senderId, String messageText, LocalDateTime date) {
         try {
-            Message message = messageService.create(senderId, chatId, messageText, date);
+            MessageEntity message = (MessageEntity) messageService.create(senderId, chatId, messageText, date);
             template.setExchange(messagesExchangeName);
             template.convertAndSend(routingKey, message);
             return new BaseResponse("", ResponseCode.OK, "OK");

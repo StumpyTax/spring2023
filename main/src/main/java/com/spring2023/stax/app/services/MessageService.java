@@ -6,7 +6,7 @@ import com.spring2023.stax.app.entity.UserEntity;
 import com.spring2023.stax.app.repositories.ChatRepository;
 import com.spring2023.stax.app.repositories.MessageRepository;
 import com.spring2023.stax.app.repositories.UserRepository;
-import com.spring2023.stax.domain.Message;
+import com.spring2023.stax.domain.IMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -64,15 +64,15 @@ public class MessageService {
      * @return Возвращает BaseResponse
      * @throws RuntimeException
      */
-    public Message create(Long senderId, Long chatId, String messageText, LocalDateTime date) throws RuntimeException {
+    public IMessage create(Long senderId, Long chatId, String messageText, LocalDateTime date) throws RuntimeException {
         Optional<UserEntity> sender = userRepository.findById(senderId);
         Optional<ChatEntity> chat = chatRepository.findById(senderId);
         if (sender.isEmpty())
             throw new RuntimeException("No sender with id: " + senderId);
         if (chat.isEmpty())
             throw new RuntimeException("No chat with id: " + senderId);
-        Message message = new Message(messageText, date, sender.get().toUser(), chat.get().toChat());
-        messageRepository.save(new MessageEntity(message));
+        MessageEntity message = new MessageEntity(messageText, date, sender.get(), chat.get());
+        messageRepository.save(message);
         return message;
     }
 
@@ -85,14 +85,12 @@ public class MessageService {
      * @throws RuntimeException
      */
     public Boolean canChange(Long messageId, Long userId) throws RuntimeException {
-        Optional<MessageEntity> message = messageRepository.findById(messageId);
-        Optional<UserEntity> user = userRepository.findById(userId);
-        if (message.isEmpty())
-            throw new RuntimeException("No such message with id: " + messageId);
-        if (user.isEmpty())
-            throw new RuntimeException("No such user with id: " + userId);
+        MessageEntity message = messageRepository.findById(messageId)
+                .orElseThrow(()->new RuntimeException("No such message with id: " + messageId));
+        UserEntity user = userRepository.findById(userId)
+                .orElseThrow(()->new RuntimeException("No such user with id: " + userId));
 
-        return message.get().getSender().getId() == user.get().getId();
+        return message.getSender().getId() == user.getId();
     }
 
     /**
@@ -116,15 +114,13 @@ public class MessageService {
      * @throws RuntimeException
      */
     public void delete(Long messageId, Long userId) throws RuntimeException {
-        Optional<MessageEntity> message = messageRepository.findById(messageId);
-        Optional<UserEntity> user = userRepository.findById(userId);
-        if (message.isEmpty())
-            throw new RuntimeException("No such message with id: " + messageId);
-        if (user.isEmpty())
-            throw new RuntimeException("No such user with id: " + userId);
-        if (!canChange(message.get(), user.get()))
+        MessageEntity message = messageRepository.findById(messageId)
+                .orElseThrow(()->new RuntimeException("No such message with id: " + messageId));
+        UserEntity user = userRepository.findById(userId)
+                .orElseThrow(()->new RuntimeException("No such user with id: " + userId));
+        if (!canChange(message, user))
             throw new RuntimeException("This user cant delete message. UserId: " + userId + " MessageId: " + messageId);
-        messageRepository.delete(message.get());
+        messageRepository.delete(message);
     }
 
     /**
@@ -136,16 +132,13 @@ public class MessageService {
      * @throws RuntimeException
      */
     public void change(Long messageId, Long userId, String newText,LocalDateTime date) throws RuntimeException {
-        Optional<MessageEntity> messageEntity = messageRepository.findById(messageId);
-        Optional<UserEntity> user = userRepository.findById(userId);
-        if (messageEntity.isEmpty())
-            throw new RuntimeException("No such message with id: " + messageId);
-        if (user.isEmpty())
-            throw new RuntimeException("No such user with id: " + userId);
-        Message message= messageEntity.get().toMessage();
+        MessageEntity message = messageRepository.findById(messageId)
+                .orElseThrow(()-> new RuntimeException("No such message with id: " + messageId));
+        UserEntity user = userRepository.findById(userId)
+                .orElseThrow(()->new RuntimeException("No such user with id: " + userId));
         message.setText(newText);
         message.setLastChange(date);
-        messageRepository.save(new MessageEntity(message));
+        messageRepository.save(message);
     }
 
 }
