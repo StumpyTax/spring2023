@@ -22,7 +22,6 @@ public class MessageController {
     RabbitTemplate template;
     @Autowired
     MessageService messageService;
-
     @Value("${spring.rabbitmq.exchanges.messages.name}")
     String messagesExchangeName;
     @Value("${spring.rabbitmq.bindings.routingKey}")
@@ -69,4 +68,5 @@ public class MessageController {
             return  new BaseResponse("",ResponseCode.BAD,e.getMessage());
         }
     }
+
 }

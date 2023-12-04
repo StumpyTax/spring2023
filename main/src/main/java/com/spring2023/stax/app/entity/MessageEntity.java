@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Entity
 @NoArgsConstructor
 @Table(name = "messages")
-public class MessageEntity implements IMessage {
+public class MessageEntity implements IMessage<UserEntity,ChatEntity> {
     @Id
     @GeneratedValue
     @Column(name = "Id", nullable = false)
@@ -31,33 +31,32 @@ public class MessageEntity implements IMessage {
     private LocalDateTime lastChange;
 
     public MessageEntity(String text, LocalDateTime date,
-                         IUser sender, IChat receiver)throws RuntimeException {
-        /*this.id=*/
+                         IUser sender, ChatEntity receiver)throws RuntimeException {
         setText(text);
         this.date = date;
         this.lastChange = date;
         this.sender = (UserEntity) sender;
-        this.receiver = (ChatEntity) receiver;
+        this.receiver = receiver;
     }
     public MessageEntity(Long id, String text,
                          LocalDateTime date, LocalDateTime lastChange,
-                         IUser sender, IChat receiver)
+                         IUser sender, ChatEntity receiver)
             throws RuntimeException {
         this.id=id;
         setText(text);
         this.date = date;
         setLastChange(lastChange);
         this.sender = (UserEntity) sender;
-        this.receiver = (ChatEntity) receiver;
+        this.receiver =receiver;
     }
-
+    @Override
     public void setText(String newText) throws RuntimeException{
         if (!newText.replaceAll(" ","").isEmpty())
             this.text = newText.strip();
         else
             throw new RuntimeException("Incorrect text");
     }
-
+    @Override
     public void setLastChange(LocalDateTime date) throws RuntimeException{
         if(date.isAfter(lastChange))
             this.lastChange=date;

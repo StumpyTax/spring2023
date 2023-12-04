@@ -87,9 +87,19 @@ public class ChatController {
             return new BaseResponse("", ResponseCode.BAD, e.getMessage());
         }
     }
+    @PutMapping("/changeName")
     public BaseResponse changeName(@RequestParam Long chatId,@RequestParam String newName ){
         try{
            return new BaseResponse(service.changeName(chatId,newName),ResponseCode.OK,"Ok");
+        }
+        catch (Exception e){
+            return new BaseResponse("", ResponseCode.BAD, e.getMessage());
+        }
+    }
+    public  BaseResponse changeOwner(Long newOwnerId,Long chatId){
+        try{
+            service.changeOwner(chatId,newOwnerId);
+            return new BaseResponse("",ResponseCode.OK,"Ok");
         }
         catch (Exception e){
             return new BaseResponse("", ResponseCode.BAD, e.getMessage());

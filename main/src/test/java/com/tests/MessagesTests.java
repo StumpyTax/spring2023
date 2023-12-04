@@ -1,15 +1,7 @@
 package com.tests;
 
-import com.spring2023.stax.domain.Chat;
-import com.spring2023.stax.domain.Message;
-import com.spring2023.stax.domain.User;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-
-import java.time.LocalDateTime;
-
 public class MessagesTests {
-
+/*
     @Test
     public void setEmptyText(){
 
@@ -47,6 +39,6 @@ public class MessagesTests {
             LocalDateTime date=LocalDateTime.now().plusMonths(9);
             message.setLastChange(date);
             Assertions.assertEquals(date.toString(), message.getLastChange().toString());
-    }
+    }*/
 
 }

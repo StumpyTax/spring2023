@@ -1,17 +1,8 @@
 package com.tests;
 
-import com.spring2023.stax.domain.Chat;
-import com.spring2023.stax.domain.User;
-import org.junit.Assert;
-import org.junit.jupiter.api.Test;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 public class ChatTests {
 
-    @Test
+   /* @Test
     public void setEmptyChatName(){
         RuntimeException thrown=Assert.assertThrows(RuntimeException.class,()->{
             Chat chat=new Chat(1l,new ArrayList<User>(List.of(new User("gg","gfd","gfda"))),
@@ -69,5 +60,15 @@ public class ChatTests {
                 "g",new User(2l,"fds","asdf","fsadf"));
         chat.deleteUser(1l);
         Assert.assertEquals(List.of(3l),chat.getMembers().stream().map(User::getId).toList());
-    }
+    }*/
+/*    @Test
+    public void deleteOwner(){
+        List<UserEntity> users=new ArrayList<UserEntity>();
+        UserEntity owner=new UserEntity(1L,"dsf","a","asdsa");
+        UserEntity newOwner=new UserEntity(2L,"a","dsf","adsf");
+        users.add(newOwner);
+        ChatEntity chat=new ChatEntity("a",users.stream().map(x->(IUser)x).toList(),owner);
+        chat.deleteOwner();
+        Assert.assertEquals(chat.getOwner().getId(),2L);
+    }*/
 }

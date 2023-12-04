@@ -11,9 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class MessageService {
@@ -39,7 +37,8 @@ public class MessageService {
                 .orElseThrow(()->new RuntimeException("No such chat with id: "+chatId));
         UserEntity user=userRepository.findById(userId)
                 .orElseThrow(()->new RuntimeException("No user with id: "+userId+" in chat with id: "+chatId ));
-        return new ArrayList<>();
+
+        return chat.getMessages();
     }
 
     /**
@@ -51,7 +50,12 @@ public class MessageService {
      * @throws RuntimeException
      */
     public MessageEntity get(Long messageId, Long userId) throws RuntimeException{
-        return null;
+        MessageEntity message=messageRepository.findById(messageId)
+                .orElseThrow(()-> new RuntimeException("No message with id: " + messageId));
+        if(!message.getReceiver().inUsers(userId) && message.getSender().getId()!=userId){
+            throw new RuntimeException("Bad userId");
+        }
+        return message;
     }
 
     /**
@@ -65,13 +69,11 @@ public class MessageService {
      * @throws RuntimeException
      */
     public IMessage create(Long senderId, Long chatId, String messageText, LocalDateTime date) throws RuntimeException {
-        Optional<UserEntity> sender = userRepository.findById(senderId);
-        Optional<ChatEntity> chat = chatRepository.findById(senderId);
-        if (sender.isEmpty())
-            throw new RuntimeException("No sender with id: " + senderId);
-        if (chat.isEmpty())
-            throw new RuntimeException("No chat with id: " + senderId);
-        MessageEntity message = new MessageEntity(messageText, date, sender.get(), chat.get());
+        UserEntity sender = userRepository.findById(senderId)
+                .orElseThrow(()->new RuntimeException("No sender with id: " + senderId));
+       ChatEntity chat = chatRepository.findById(senderId)
+               .orElseThrow(()->new RuntimeException("No chat with id: " + senderId));
+        MessageEntity message = new MessageEntity(messageText, date, sender, chat);
         messageRepository.save(message);
         return message;
     }

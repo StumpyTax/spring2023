@@ -1,4 +1,4 @@
-package com.spring2023.stax.extern;
+package com.spring2023.stax.extern.config;
 
 
 import org.slf4j.Logger;

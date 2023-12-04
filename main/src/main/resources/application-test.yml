@@ -10,3 +10,7 @@ spring:
     port: 8010
     username: guest
     password: guest
+
+  provider:
+    external:
+      token-uri: http://localhost:8090/login

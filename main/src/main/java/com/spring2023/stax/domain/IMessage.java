@@ -2,7 +2,7 @@ package com.spring2023.stax.domain;
 
 import java.time.LocalDateTime;
 
-public interface IMessage {
+public interface IMessage<T1 extends IUser,T2 extends IChat> {
     /**
      * Изменяет текст сообщения
      *
