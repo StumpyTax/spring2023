@@ -4,4 +4,5 @@ import org.springframework.cloud.openfeign.FeignClient;
 
 @FeignClient(name="userClient", url = "${external.url]")
 public interface UserClient {
+
 }

@@ -3,17 +3,18 @@ package com.spring2023.auth.extern.controllers;
 import com.spring2023.auth.app.CustomUserDetails;
 import com.spring2023.auth.app.CustomUserDetailsService;
 import com.spring2023.auth.app.TokenService;
+import com.spring2023.auth.app.entity.UserEntity;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping(produces = "application/json")
 public class AuthController {
     @Autowired
     private TokenService tokenService;
@@ -39,6 +40,17 @@ public class AuthController {
         return new LoginResponse("User with email = "+ request.username + " successfully logined!"
 
                 , access_token, refresh_token);
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<String> register(@RequestBody LoginRequest request) {
+        var user = new UserEntity();
+        user.setEmail(request.username);
+        var encoder = new BCryptPasswordEncoder();
+        var encodedPass = encoder.encode(request.password);
+        user.setPassword(encodedPass);
+        usrDetailsService.save(user);
+        return ResponseEntity.ok().build();
     }
 
     record RefreshTokenResponse(String access_jwt_token, String refresh_jwt_token) {};

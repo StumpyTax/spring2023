@@ -96,9 +96,9 @@ public class ChatController {
             return new BaseResponse("", ResponseCode.BAD, e.getMessage());
         }
     }
-    public  BaseResponse changeOwner(Long newOwnerId,Long chatId){
+    public  BaseResponse changeOwner(Long newOwnerId,Long chatId,Long curUserId){
         try{
-            service.changeOwner(chatId,newOwnerId);
+            service.changeOwner(chatId,newOwnerId,curUserId);
             return new BaseResponse("",ResponseCode.OK,"Ok");
         }
         catch (Exception e){

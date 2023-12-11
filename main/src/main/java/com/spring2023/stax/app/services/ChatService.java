@@ -103,10 +103,25 @@ public class ChatService {
         chatRepository.save(chat);
         return "OldName:"+chat.getName()+"\nNewName: "+chat.getName();
     }
-    public void deleteOwner(Long chatId){
-
+    public void deleteOwner(Long chatId,Long curUserId){
+        ChatEntity chat=chatRepository.findById(chatId)
+                .orElseThrow(()->new RuntimeException("No chat with id: "+chatId));
+        if(chat.getOwner().getId()!=curUserId)
+            throw new RuntimeException("CurUser is not the owner");
+        if(!chat.deleteOwner()){
+            chatRepository.save(chat);
+            deleteChat(chatId,curUserId);
+        }
     }
-    public  void changeOwner(Long chatId,Long newOwnerId){
+    public  void changeOwner(Long chatId,Long newOwnerId,Long curUserId){
+        ChatEntity chat=chatRepository.findById(chatId)
+                .orElseThrow(()->new RuntimeException("No chat with id: "+chatId));
+        if(chat.getOwner().getId()!=curUserId)
+            throw new RuntimeException("CurUser is not the owner");
+        chat.changeOwner(newOwnerId);
+        chatRepository.save(chat);
+    }
+    public void deleteChat(Long chatId,Long curUserId){
 
     }
 }

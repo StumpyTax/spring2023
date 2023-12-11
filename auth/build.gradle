@@ -26,14 +26,16 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     implementation "org.springframework.boot:spring-boot-starter-data-jpa"
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.jetbrains:annotations:24.0.0'
+
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation "org.springframework.boot:spring-boot-configuration-processor"
     implementation "org.springframework.boot:spring-boot-starter-oauth2-resource-server"
+
     implementation "org.postgresql:postgresql"
+    runtimeOnly group: "com.h2database", name: 'h2', version: '2.1.214'
+
     compileOnly "org.projectlombok:lombok"
     annotationProcessor 'org.projectlombok:lombok'
-    runtimeOnly group: "com.h2database", name: 'h2', version: '2.1.214'
 
 }
 

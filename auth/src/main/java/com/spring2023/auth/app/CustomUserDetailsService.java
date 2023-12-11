@@ -19,4 +19,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         return new CustomUserDetails(user) {
         };
     }
+    public void save(UserEntity user) {
+        userRepo.save(user);
+    }
 }
