@@ -3,6 +3,7 @@ package com.tests;
 import com.spring2023.stax.app.entity.ChatEntity;
 import com.spring2023.stax.app.entity.UserEntity;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -14,10 +15,11 @@ public class ChatTests {
 
     @Test
     public void setEmptyChatName(){
+        UserEntity mock= Mockito.mock(UserEntity.class);
         RuntimeException thrown=assertThrows(RuntimeException.class,()->{
             ChatEntity chat=new ChatEntity("g",new ArrayList<UserEntity>(List.of(
-                    new UserEntity("gg","gfd","gfda"))),
-                new UserEntity("fds","asdf","fsadf"));
+                    mock)),
+               mock);
             chat.setName("");});
 
         assertEquals("Incorrect name",thrown.getMessage());

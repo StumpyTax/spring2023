@@ -37,11 +37,16 @@ dependencies {
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
+
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client:3.1.5'
+    implementation 'org.springframework.security:spring-security-oauth2-resource-server:5.1.1.RELEASE'
+
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.15.1'
     implementation 'org.springframework.amqp:spring-rabbit:3.0.10'
 
     implementation 'com.tngtech.archunit:archunit-junit5:1.0.1'
     implementation 'org.junit.jupiter:junit-jupiter:5.8.1'
+    implementation 'org.mockito:mockito-core:2.24.0'
 
     runtimeOnly group: 'com.h2database', name: 'h2', version: '2.1.214'
     runtimeOnly 'org.postgresql:postgresql'

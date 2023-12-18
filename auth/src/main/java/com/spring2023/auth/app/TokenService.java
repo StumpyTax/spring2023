@@ -1,5 +1,6 @@
 package com.spring2023.auth.app;
 
+import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
@@ -52,10 +53,13 @@ public class TokenService  {
         return this.jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
     }
 
-    public String parseToken(String token) {
+    public JWTClaimsSet parseToken(String token) {
         try {
+            if (token.startsWith("Bearer "))
+                token = token.substring(7);
             SignedJWT decodedJWT = SignedJWT.parse(token);
-            return decodedJWT.getJWTClaimsSet().getSubject();
+            var claims = decodedJWT.getJWTClaimsSet();
+            return claims;
         } catch (ParseException e) {
             e.printStackTrace();
         }

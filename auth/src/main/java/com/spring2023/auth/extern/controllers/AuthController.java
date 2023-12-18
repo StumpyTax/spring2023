@@ -4,8 +4,8 @@ import com.spring2023.auth.app.CustomUserDetails;
 import com.spring2023.auth.app.CustomUserDetailsService;
 import com.spring2023.auth.app.TokenService;
 import com.spring2023.auth.app.entity.UserEntity;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -55,15 +55,19 @@ public class AuthController {
 
     record RefreshTokenResponse(String access_jwt_token, String refresh_jwt_token) {};
     @GetMapping("/token/refresh")
-    public RefreshTokenResponse refreshToken(HttpServletRequest request) {
-        String headerAuth = request.getHeader("Authorization");
+    public RefreshTokenResponse refreshToken(HttpHeaders request) {
+        String headerAuth = request.getFirst("Authorization");
         String refreshToken = headerAuth.substring(7, headerAuth.length());
 
-        String email = tokenService.parseToken(refreshToken);
+        String email = tokenService.parseToken(refreshToken).getSubject();
         CustomUserDetails user = (CustomUserDetails) usrDetailsService.loadUserByUsername(email);
         String access_token = tokenService.generateAccessToken(user);
         String refresh_token = tokenService.generateRefreshToken(user);
 
         return new RefreshTokenResponse(access_token, refresh_token);
+    }
+    @PostMapping("/validate")
+    public String validate(@RequestParam String token){
+        return tokenService.parseToken(token).toString();
     }
 }
