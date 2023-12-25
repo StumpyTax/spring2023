@@ -9,7 +9,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 public class CustomUserDetails implements UserDetails {
 
@@ -22,18 +21,18 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        Set<RoleEntity> roles = user.getRoles();
+        List<RoleEntity> roles = user.getRoles();
 
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
         for(RoleEntity role : roles) {authorities.add(new SimpleGrantedAuthority(role.getRoleName()));}
         return authorities;
     }
-
+    public Long getId(){return user.getId();}
     @Override
     public String getPassword() {return user.getPassword();}
 
     @Override
-    public String getUsername() {return user.getEmail();}
+    public String getUsername() {return user.getLogin();}
 
     @Override
     public boolean isAccountNonExpired() {return true;}

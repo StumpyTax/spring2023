@@ -2,10 +2,12 @@ package com.spring2023.auth.app.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Table(name = "roles")
 @Entity
 @Data
+@NoArgsConstructor
 public class RoleEntity {
 
     @Id
@@ -15,5 +17,9 @@ public class RoleEntity {
 
     @Column(name = "role_name")
     private String roleName;
+
+    public RoleEntity(String name){
+        roleName=name;
+    }
 }
 

@@ -41,10 +41,10 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
         HttpEntity<MultiValueMap<String, String>> requestRest = new HttpEntity<MultiValueMap<String, String>>(map, headers);
 
-        var validateResponse = restTemplate.postForEntity("http://localhost:8090/validate", requestRest, String.class);
+        var validateResponse = restTemplate.postForEntity("http://localhost:8090/auth/validate", requestRest, String.class);
         var body = validateResponse.getBody();
         var context = SecurityContextHolder.getContext();
-        context.setAuthentication(new CustomAuthentication(body));
+        context.setAuthentication(new CustomAuthentication(body,header.replace("Bearer ","")));
 
         chain.doFilter(request, response);
     }

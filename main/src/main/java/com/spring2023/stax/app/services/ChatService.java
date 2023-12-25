@@ -33,21 +33,14 @@ public class ChatService {
     /** Создает чат
      * @param name Имя чата
      * @param ownerId Создатель чата
-     * @param usersIds ID пользователей
      * @return Чат
      */
-    public ChatEntity create(String name, Long ownerId, List<Long> usersIds) throws RuntimeException{
-
-        List<UserEntity> users= StreamSupport.stream(
-                userRepository.findAllById(usersIds)
-                        .spliterator(), false).toList();
-
+    public ChatEntity create(String name, Long ownerId) throws RuntimeException{
         UserEntity owner=userRepository.findById(ownerId)
                 .orElseThrow(()->new RuntimeException("No such user with ownerId: "+ownerId));
-        ChatEntity newChat=new ChatEntity(name,users,owner);
+        ChatEntity newChat=new ChatEntity(name,owner);
         chatRepository.save(newChat);
-        if(users.size()<usersIds.size())
-            throw  new RuntimeException("Part of ids not found:"+users.size()+" of "+usersIds.size());
+
         return  newChat;
     }
 

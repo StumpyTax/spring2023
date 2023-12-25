@@ -43,6 +43,11 @@ public class ChatEntity implements IChat<UserEntity,MessageEntity> {
         this.users=users;
         this.owner=owner;
     }
+    public ChatEntity(String name, UserEntity owner){
+        this.name=name;
+        users=new ArrayList<>();
+        this.owner=owner;
+    }
     /**
      * Изменяет имя чата.
      *
@@ -64,7 +69,7 @@ public class ChatEntity implements IChat<UserEntity,MessageEntity> {
      */
     @Override
     public void addUsers(List<UserEntity> users) {
-        this.users.addAll(users);
+        this.users.addAll(users.stream().filter(x-> this.users.stream().noneMatch(y->y.getId()==x.getId())).toList());
     }
 
     /**

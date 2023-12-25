@@ -1,12 +1,15 @@
 package com.spring2023.stax.extern.controllers;
 
-import com.spring2023.stax.app.services.ChatService;
-import com.spring2023.stax.extern.response.BaseResponse;
-import com.spring2023.stax.extern.response.ResponseCode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.spring2023.stax.app.services.ChatService;
+import com.spring2023.stax.extern.client.AuthClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -17,38 +20,41 @@ public class ChatController {
     private ChatService service;
     @Autowired
     private ObjectMapper objectMapper;
-
+    @Autowired
+    private AuthClient client;
 
     /**Получение чата по ID
      * @param id чата
      * @return
      */
     @GetMapping("/{id}")
-    public BaseResponse get(@PathVariable Long id){
+    public ResponseEntity<String> get(@PathVariable Long id){
         try {
-            return new BaseResponse(objectMapper.writeValueAsString(service.get(id)),ResponseCode.OK,"");
+            return ResponseEntity.ok(objectMapper.writeValueAsString(service.get(id)));
         }
         catch (Exception e){
-            return new BaseResponse("", ResponseCode.BAD,e.getMessage());
+            return ResponseEntity.status(500).body(e.getMessage());
         }
     }
 
     /**Создает чат
      * @param name имя чата
-     * @param ownerId ID создателя чата
-     * @param usersIds ID пользователей чата
      * @return BaseResponse
      */
     @PostMapping("/create")
-    public BaseResponse create(@RequestParam String name,
-                               @RequestParam Long ownerId,
-                               @RequestParam List<Long> usersIds){
+    public ResponseEntity<String> create(@RequestBody String name){
         try {
-            return new BaseResponse(objectMapper.writeValueAsString(service.create(name,ownerId,usersIds)),
-                    ResponseCode.OK,"");
+            Authentication auth= SecurityContextHolder.getContext().getAuthentication();
+            var token=auth.getCredentials();
+            Long ownerId= Long.parseLong(Arrays.stream(client.validate(String.valueOf(token))
+                    .replaceAll("[\"{}]", "").
+                    split(",")).map(x->x.split(":"))
+                    .filter(y-> y[0].equals("id")).toList().get(0)[1]);
+
+            return ResponseEntity.ok(objectMapper.writeValueAsString(service.create(name,ownerId)));
         }
         catch (Exception e){
-            return new BaseResponse("", ResponseCode.BAD,e.getMessage());
+            return ResponseEntity.status(500).body(e.getMessage());
         }
     }
 
@@ -59,14 +65,14 @@ public class ChatController {
      * @param userIds id пользователей
      * @return BaseResponse
      */
-    @PutMapping("/addUsers")
-    public BaseResponse addUsers(@RequestParam Long chatId,@RequestParam List<Long> userIds){
+    @PutMapping("/{chatId}/addUsers")
+    public ResponseEntity<String> addUsers(@PathVariable Long chatId,@RequestParam List<Long> userIds){
         try{
             service.addUsers(chatId,userIds);
-            return new BaseResponse("",ResponseCode.OK,"Ok");
+            return ResponseEntity.ok().build();
         }
         catch (Exception e){
-            return new BaseResponse("",ResponseCode.BAD,e.getMessage());
+            return ResponseEntity.status(500).body(e.getMessage());
         }
     }
 
@@ -77,32 +83,41 @@ public class ChatController {
      * @param userId id пользователя
      * @return BaseResponse
      */
-    @PutMapping("/deleteUsers")
-    public BaseResponse deleteUsers(@RequestParam Long chatId,@RequestParam Long userId ){
+    @PutMapping("/{chatId}/deleteUsers")
+    public ResponseEntity<String> deleteUsers(@PathVariable Long chatId,@RequestParam Long userId ){
         try{
             service.deleteUser(chatId,userId);
-            return new BaseResponse("",ResponseCode.OK,"Ok");
+            return ResponseEntity.ok().build();
         }
         catch (Exception e) {
-            return new BaseResponse("", ResponseCode.BAD, e.getMessage());
+            return ResponseEntity.status(500).body(e.getMessage());
         }
     }
-    @PutMapping("/changeName")
-    public BaseResponse changeName(@RequestParam Long chatId,@RequestParam String newName ){
+
+    /**
+     * Изменяет название чата
+     *
+     * @param chatId id чата
+     * @param newName Новое имя чата
+     * @return
+     */
+    @PutMapping("/{chatId}/changeName")
+    public ResponseEntity<String> changeName(@PathVariable Long chatId,@RequestParam String newName ){
         try{
-           return new BaseResponse(service.changeName(chatId,newName),ResponseCode.OK,"Ok");
+           return ResponseEntity.ok(service.changeName(chatId,newName));
         }
         catch (Exception e){
-            return new BaseResponse("", ResponseCode.BAD, e.getMessage());
+            return ResponseEntity.status(500).body(e.getMessage());
         }
     }
-    public  BaseResponse changeOwner(Long newOwnerId,Long chatId,Long curUserId){
+    @PutMapping("/{chatId}/changeOwner")
+    public  ResponseEntity<String> changeOwner(@PathVariable Long chatId,Long newOwnerId,Long curUserId){
         try{
             service.changeOwner(chatId,newOwnerId,curUserId);
-            return new BaseResponse("",ResponseCode.OK,"Ok");
+            return ResponseEntity.ok().build();
         }
         catch (Exception e){
-            return new BaseResponse("", ResponseCode.BAD, e.getMessage());
+            return ResponseEntity.status(500).body(e.getMessage());
         }
     }
 }

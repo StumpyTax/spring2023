@@ -21,9 +21,9 @@ public class TokenService  {
         this.jwtEncoder = jwtEncoder;
     }
 
-    public String generateAccessToken(CustomUserDetails usrDetails) {
+    public String generateAccessToken(CustomUserDetails userDetails) {
         Instant now = Instant.now();
-        String scope = usrDetails.getAuthorities().stream()
+        String scope = userDetails.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(" "));
 
@@ -31,8 +31,9 @@ public class TokenService  {
                 .issuer("self")
                 .issuedAt(now)
                 .expiresAt(now.plus(2, ChronoUnit.MINUTES))
-                .subject(usrDetails.getUsername())
+                .subject(userDetails.getUsername())
                 .claim("scope", scope)
+                .claim("id",userDetails.getId())
                 .build();
         return this.jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
     }

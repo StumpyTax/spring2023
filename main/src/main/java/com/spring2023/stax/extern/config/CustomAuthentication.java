@@ -15,15 +15,16 @@ public class CustomAuthentication implements Authentication {
     private boolean isAuthenticated;
     private List<GrantedAuthority> authorities;
 
-    public CustomAuthentication(String claimsString) {
+    public CustomAuthentication(String claimsString, String token) {
         setAuthenticated(true);
         var claims = new HashMap<String, String>();
-        claimsString = claimsString.replace("\"", "");
+        claimsString = claimsString.replaceAll("[\"{}]", "");
         var keyValuePairs = claimsString.split(",");
         for (var keyValue:keyValuePairs) {
             var keyValueArray = keyValue.split(":");
             claims.put(keyValueArray[0], keyValueArray[1]);
         }
+        this.token = token;
         authorities = new ArrayList<>();
         var scopes = claims.get("scope");
         authorities.add(new SimpleGrantedAuthority(scopes));

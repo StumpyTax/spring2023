@@ -1,14 +1,14 @@
 package com.spring2023.stax.extern.controllers;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.spring2023.stax.app.entity.MessageEntity;
 import com.spring2023.stax.app.services.MessageService;
-import com.spring2023.stax.extern.response.BaseResponse;
-import com.spring2023.stax.extern.response.ResponseCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -25,47 +25,49 @@ public class MessageController {
     @Value("${spring.rabbitmq.exchanges.messages.name}")
     String messagesExchangeName;
     @Value("${spring.rabbitmq.bindings.routingKey}")
-    public String routingKey;
+    String routingKey;
+    @Autowired
+    ObjectMapper objectMapper=new ObjectMapper();
 
     @RequestMapping("/send")
     @ResponseBody
-    public BaseResponse send(Long chatId, Long senderId, String messageText, LocalDateTime date) {
+    public ResponseEntity<String> send(Long chatId, Long senderId, String messageText, LocalDateTime date) {
         try {
             MessageEntity message = (MessageEntity) messageService.create(senderId, chatId, messageText, date);
             template.setExchange(messagesExchangeName);
             template.convertAndSend(routingKey, message);
-            return new BaseResponse("", ResponseCode.OK, "OK");
+            return ResponseEntity.ok().build();
         } catch (Exception e) {
-            return new BaseResponse("", ResponseCode.BAD, e.getMessage());
+            return ResponseEntity.status(500).body(e.getMessage());
         }
     }
     @RequestMapping("/canChange")
-    public BaseResponse can(Long messageId,Long userId){
+    public ResponseEntity<String> can(Long messageId,Long userId){
         try{
-            return new BaseResponse(messageService.canChange(messageId,userId).toString(),ResponseCode.OK,"");
+            return ResponseEntity.ok(objectMapper.writeValueAsString(messageService.canChange(messageId,userId)));
         }
         catch (Exception e){
-            return  new BaseResponse("",ResponseCode.BAD,e.getMessage());
+            return ResponseEntity.status(500).body(e.getMessage());
         }
     }
     @DeleteMapping("/delete")
-    public BaseResponse delete(Long messageId,Long userId){
+    public ResponseEntity<String> delete(Long messageId,Long userId){
         try{
             messageService.delete(messageId, userId);
-            return new BaseResponse("",ResponseCode.OK,"Ok");
+            return ResponseEntity.ok().build();
         }
         catch(Exception e){
-            return  new BaseResponse("",ResponseCode.BAD,e.getMessage());
+            return ResponseEntity.status(500).body(e.getMessage());
         }
     }
     @PutMapping("change")
-    public BaseResponse change(Long messageId, Long userId, String newText,LocalDateTime date){
+    public ResponseEntity<String> change(Long messageId, Long userId, String newText,LocalDateTime date){
         try{
             messageService.change(messageId, userId, newText, date);
-            return new BaseResponse("",ResponseCode.OK,"Ok");
+            return ResponseEntity.ok().build();
         }
         catch (Exception e){
-            return  new BaseResponse("",ResponseCode.BAD,e.getMessage());
+            return ResponseEntity.status(500).body(e.getMessage());
         }
     }
 
